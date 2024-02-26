@@ -5,7 +5,7 @@ import jakarta.validation.constraints.NotBlank;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "criterion")
+@Table(name = "criteria")
 @NoArgsConstructor
 public class Criterion {
     @Id

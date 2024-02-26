@@ -5,33 +5,40 @@ import jakarta.validation.constraints.NotBlank;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "user")
+@Table(name = "users")
 @NoArgsConstructor
 public class User {
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
-    Long id;
+    Long uid;
     @NotBlank
+    @Column(name = "email")
     String email;
     @NotBlank
+    @Column(name = "firstname")
     String firstName;
     @NotBlank
+    @Column(name = "lastname")
     String lastName;
     @NotBlank
+    @Column(name = "password")
     String password;
-
     @NotBlank
+    @Column(name = "role")
     String role;
 
-    public User(String email, String password) {
+    public User(String email, String password, String firstName, String lastName, String role) {
         this.email = email;
         this.password = password;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.role = role;
     }
-    public Long getId() {
-        return id;
+    public Long getUid() {
+        return uid;
     }
-    public void setId(Long id) {
-        this.id = id;
+    public void setUid(Long uid) {
+        this.uid = uid;
     }
     public String getEmail() {
         return email;

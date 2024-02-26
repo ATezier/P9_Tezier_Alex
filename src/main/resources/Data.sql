@@ -2,6 +2,15 @@
 create database p9;
 use p9;
 
+create table users(
+UID bigint PRIMARY KEY AUTO_INCREMENT,
+EMAIL varchar(255) NOT NULL,
+FIRSTNAME varchar(255) NOT NULL,
+LASTNAME varchar(255) NOT NULL,
+PASSWORD varchar(255) NOT NULL,
+ROLE varchar(255) NOT NULL
+);
+
 create table patients(
 PID bigint PRIMARY KEY AUTO_INCREMENT,
 FIRSTNAME varchar(255) NOT NULL,
@@ -20,7 +29,7 @@ DESCRIPTION varchar(255) NOT NULL,
 FOREIGN KEY (PID) REFERENCES patients(PID)
 );
 
-create table criterion(
+create table criteria(
 CID bigint PRIMARY KEY AUTO_INCREMENT,
 NAME varchar(255) NOT NULL
 );

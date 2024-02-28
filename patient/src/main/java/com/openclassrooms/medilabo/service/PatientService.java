@@ -38,8 +38,12 @@ public class PatientService {
         }
         return true;
     }
-    public Patient findPatient(String firstName, String lastName) {
+    public Patient findPatientByFirstNameAndLastName(String firstName, String lastName) {
         return patientRepository.findByFirstNameAndLastName(firstName, lastName).orElseThrow(() -> new IllegalArgumentException("Patient not found"));
+    }
+
+    public Patient findPatientById(Long id) {
+        return patientRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Patient not found"));
     }
     public List<Patient> findAllPatients() {
         return patientRepository.findAll();
@@ -47,7 +51,7 @@ public class PatientService {
     public Patient createPatient(Patient patient) {
         if(isValid(patient)) {
             try {
-                findPatient(patient.getFirstName(), patient.getLastName());
+                findPatientByFirstNameAndLastName(patient.getFirstName(), patient.getLastName());
                 throw new IllegalArgumentException("Patient already exists, failed to create new patient");
             } catch (IllegalArgumentException e) {
                 return patientRepository.save(patient);
@@ -56,13 +60,18 @@ public class PatientService {
             throw new IllegalArgumentException("Patient is not valid");
         }
     }
-    public Patient updatePatient(Patient patient) {
+    public Patient updatePatient(String firstName, String lastName, Patient patient) {
+        Patient old;
         if(isValid(patient)) {
             try {
-                findPatient(patient.getFirstName(), patient.getLastName());
+                old = findPatientByFirstNameAndLastName(firstName, lastName);
+                patient.setPid(old.getPid());
+                if(old.equals(patient)) {
+                    throw new IllegalArgumentException("Nothing to update, failed to update");
+                }
                 return patientRepository.save(patient);
             } catch (IllegalArgumentException e) {
-                throw new IllegalArgumentException("Patient does not exist, failed to update");
+                throw new IllegalArgumentException(e.getMessage() + ", failed to update");
             }
         } else {
             throw new IllegalArgumentException("Patient is not valid");
@@ -70,10 +79,10 @@ public class PatientService {
     }
     public void deletePatient(String firstName, String lastName) {
         try {
-            Patient patient = findPatient(firstName, lastName);
+            Patient patient = findPatientByFirstNameAndLastName(firstName, lastName);
             patientRepository.delete(patient);
         } catch (IllegalArgumentException e) {
-            throw new IllegalArgumentException("Patient does not exist, failed to delete");
+            throw new IllegalArgumentException(e.getMessage() + ", failed to delete");
         }
     }
 }

@@ -29,12 +29,6 @@ public class Patient {
     String address;
     @Column(name = "phone")
     String phone;
-    @OneToMany(
-            cascade = CascadeType.ALL,
-            fetch = FetchType.LAZY
-    )
-    @JoinColumn(name="pid", referencedColumnName = "pid")
-    List<Report> reports;
 
     public Patient(String firstName, String lastName, String birthdate, Gender gender) {
         this.firstName = firstName;
@@ -43,7 +37,6 @@ public class Patient {
         this.gender = gender;
         this.address = null;
         this.phone = null;
-        this.reports = null;
     }
     public Long getPid() {
         return pid;

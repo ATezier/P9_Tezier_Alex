@@ -1,15 +1,6 @@
 /* Setting up P9 DB */
-create database p9;
-use p9;
-
-create table users(
-UID bigint PRIMARY KEY AUTO_INCREMENT,
-EMAIL varchar(255) NOT NULL,
-FIRSTNAME varchar(255) NOT NULL,
-LASTNAME varchar(255) NOT NULL,
-PASSWORD varchar(255) NOT NULL,
-ROLE varchar(255) NOT NULL
-);
+create database p9_patient;
+use p9_patient;
 
 create table patients(
 PID bigint PRIMARY KEY AUTO_INCREMENT,
@@ -20,6 +11,10 @@ GENRE varchar(255) NOT NULL,
 ADDRESS varchar(255),
 PHONE varchar(255)
 );
+
+commit;
+create database p9_report;
+use p9_report;
 
 create table reports(
 RID bigint PRIMARY KEY AUTO_INCREMENT,
@@ -46,4 +41,16 @@ insert into criterion(NAME) values('Rechute');
 insert into criterion(NAME) values('Réaction');
 insert into criterion(NAME) values('Anticorps');
 
+commit;
+create database p9_auth;
+use p9_auth;
+
+create table users(
+UID bigint PRIMARY KEY AUTO_INCREMENT,
+EMAIL varchar(255) NOT NULL,
+FIRSTNAME varchar(255) NOT NULL,
+LASTNAME varchar(255) NOT NULL,
+PASSWORD varchar(255) NOT NULL,
+ROLE varchar(255) NOT NULL
+);
 commit;

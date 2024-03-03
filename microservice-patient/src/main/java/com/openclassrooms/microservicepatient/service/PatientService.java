@@ -1,9 +1,10 @@
-package com.openclassrooms.medilabo.service;
+package com.openclassrooms.microservicepatient.service;
 
-import com.openclassrooms.medilabo.model.Patient;
-import com.openclassrooms.medilabo.repository.PatientRepository;
+import com.openclassrooms.microservicepatient.model.Patient;
+import com.openclassrooms.microservicepatient.repository.PatientRepository;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.util.List;
 
 @Service
@@ -30,8 +31,15 @@ public class PatientService {
             errorMessage += "Birth date is required. ";
         }
         if(patient.getGender() == null) {
-            isValid = false;
-            errorMessage += "Gender is required. ";
+            switch (patient.getGender()) {
+                case "M":
+                case "F":
+                case "O":
+                    break;
+                default:
+                    isValid = false;
+                    errorMessage += "Gender is required. ";
+            }
         }
         if(!isValid) {
             throw new IllegalArgumentException(errorMessage);
@@ -52,9 +60,11 @@ public class PatientService {
         if(isValid(patient)) {
             try {
                 findPatientByFirstNameAndLastName(patient.getFirstName(), patient.getLastName());
-                throw new IllegalArgumentException("Patient already exists, failed to create new patient");
+                throw new Exception("Patient already exists, failed to create new patient");
             } catch (IllegalArgumentException e) {
                 return patientRepository.save(patient);
+            } catch (Exception e) {
+                throw new IllegalArgumentException(e.getMessage());
             }
         } else {
             throw new IllegalArgumentException("Patient is not valid");
@@ -66,12 +76,19 @@ public class PatientService {
             try {
                 old = findPatientByFirstNameAndLastName(firstName, lastName);
                 patient.setPid(old.getPid());
-                if(old.equals(patient)) {
-                    throw new IllegalArgumentException("Nothing to update, failed to update");
+                if (old.getFirstName().equals(patient.getFirstName())
+                        && old.getLastName().equals(patient.getLastName())
+                        && old.getBirthdate().equals(patient.getBirthdate())
+                        && old.getGender().equals(patient.getGender())
+                        && old.getAddress().equals(patient.getAddress())
+                        && old.getPhone().equals(patient.getPhone())) {
+                    throw new Exception("Nothing to update, failed to update");
                 }
                 return patientRepository.save(patient);
             } catch (IllegalArgumentException e) {
                 throw new IllegalArgumentException(e.getMessage() + ", failed to update");
+            } catch (Exception e) {
+                throw new IllegalArgumentException(e.getMessage());
             }
         } else {
             throw new IllegalArgumentException("Patient is not valid");

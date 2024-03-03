@@ -1,7 +1,7 @@
-package com.openclassrooms.medilabo.repository;
+package com.openclassrooms.microservicepatient.repository;
 
-import com.openclassrooms.medilabo.model.Patient;
 import org.springframework.data.jpa.repository.JpaRepository;
+import com.openclassrooms.microservicepatient.model.Patient;
 
 import java.util.Optional;
 

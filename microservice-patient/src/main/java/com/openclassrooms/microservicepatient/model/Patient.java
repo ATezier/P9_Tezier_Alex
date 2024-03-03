@@ -1,4 +1,4 @@
-package com.openclassrooms.medilabo.model;
+package com.openclassrooms.microservicepatient.model;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
@@ -24,13 +24,13 @@ public class Patient {
     String birthdate;
     @NotBlank
     @Column(name = "genre")
-    Gender gender;
+    String gender;
     @Column(name = "address")
     String address;
     @Column(name = "phone")
     String phone;
 
-    public Patient(String firstName, String lastName, String birthdate, Gender gender) {
+    public Patient(String firstName, String lastName, String birthdate, String gender) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.birthdate = birthdate;
@@ -62,10 +62,10 @@ public class Patient {
     public void setBirthdate(String birthdate) {
         this.birthdate = birthdate;
     }
-    public Gender getGender() {
+    public String getGender() {
         return gender;
     }
-    public void setGender(Gender gender) {
+    public void setGender(String gender) {
         this.gender = gender;
     }
     public String getAddress() {

@@ -1,7 +1,7 @@
-package com.openclassrooms.medilabo.controller;
+package com.openclassrooms.microservicepatient.controller;
 
-import com.openclassrooms.medilabo.model.Patient;
-import com.openclassrooms.medilabo.service.PatientService;
+import com.openclassrooms.microservicepatient.model.Patient;
+import com.openclassrooms.microservicepatient.service.PatientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -43,7 +43,7 @@ public class PatientController {
     }
 
     @PutMapping("/patient")
-    public ResponseEntity<?> updatePerson(@RequestBody String firstName, @RequestBody String lastName, @RequestBody Patient patient) {
+    public ResponseEntity<?> updatePerson(@RequestParam String firstName, @RequestParam String lastName, @RequestBody Patient patient) {
         ResponseEntity<?> res = null;
         try {
             patientService.updatePatient(firstName, lastName, patient);

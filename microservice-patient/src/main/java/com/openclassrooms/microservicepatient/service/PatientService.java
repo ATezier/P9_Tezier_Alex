@@ -15,20 +15,20 @@ public class PatientService {
         this.patientRepository = patientRepository;
     }
 
-    public boolean isValid(Patient patient) {
+    public boolean isValid(Patient patient) throws Exception {
         boolean isValid = true;
         String errorMessage = "";
         if(patient.getFirstName() == null || patient.getFirstName().isEmpty()) {
             isValid = false;
-            errorMessage += "First name is required. ";
+            errorMessage += "First name is required.\n";
         }
         if(patient.getLastName() == null || patient.getLastName().isEmpty()) {
             isValid = false;
-            errorMessage += "Last name is required. ";
+            errorMessage += "Last name is required.\n";
         }
         if(patient.getBirthdate() == null) {
             isValid = false;
-            errorMessage += "Birth date is required. ";
+            errorMessage += "Birth date is required.\n";
         }
         if(patient.getGender() == null) {
             switch (patient.getGender()) {
@@ -38,11 +38,11 @@ public class PatientService {
                     break;
                 default:
                     isValid = false;
-                    errorMessage += "Gender is required. ";
+                    errorMessage += "Gender is required.\n";
             }
         }
         if(!isValid) {
-            throw new IllegalArgumentException(errorMessage);
+            throw new Exception(errorMessage);
         }
         return true;
     }
@@ -57,46 +57,49 @@ public class PatientService {
         return patientRepository.findAll();
     }
     public Patient createPatient(Patient patient) {
-        if(isValid(patient)) {
-            try {
-                findPatientByFirstNameAndLastName(patient.getFirstName(), patient.getLastName());
-                throw new Exception("Patient already exists, failed to create new patient");
-            } catch (IllegalArgumentException e) {
-                return patientRepository.save(patient);
-            } catch (Exception e) {
-                throw new IllegalArgumentException(e.getMessage());
-            }
-        } else {
-            throw new IllegalArgumentException("Patient is not valid");
-        }
-    }
-    public Patient updatePatient(String firstName, String lastName, Patient patient) {
-        Patient old;
-        if(isValid(patient)) {
-            try {
-                old = findPatientByFirstNameAndLastName(firstName, lastName);
-                patient.setPid(old.getPid());
-                if (old.getFirstName().equals(patient.getFirstName())
-                        && old.getLastName().equals(patient.getLastName())
-                        && old.getBirthdate().equals(patient.getBirthdate())
-                        && old.getGender().equals(patient.getGender())
-                        && old.getAddress().equals(patient.getAddress())
-                        && old.getPhone().equals(patient.getPhone())) {
-                    throw new Exception("Nothing to update, failed to update");
-                }
-                return patientRepository.save(patient);
-            } catch (IllegalArgumentException e) {
-                throw new IllegalArgumentException(e.getMessage() + ", failed to update");
-            } catch (Exception e) {
-                throw new IllegalArgumentException(e.getMessage());
-            }
-        } else {
-            throw new IllegalArgumentException("Patient is not valid");
-        }
-    }
-    public void deletePatient(String firstName, String lastName) {
         try {
-            Patient patient = findPatientByFirstNameAndLastName(firstName, lastName);
+            isValid(patient);
+            findPatientByFirstNameAndLastName(patient.getFirstName(), patient.getLastName());
+            throw new Exception("Patient already exists, failed to create new patient");
+        } catch (IllegalArgumentException e) {
+            return patientRepository.save(patient);
+        } catch (Exception e) {
+            throw new IllegalArgumentException(e.getMessage());
+        }
+    }
+
+    public Patient updatePatient(Long id, Patient patient) {
+        Patient old;
+        try {
+            isValid(patient);
+            old = findPatientById(id);
+            patient.setPid(old.getPid());
+            if (old.getFirstName().equals(patient.getFirstName())
+                    && old.getLastName().equals(patient.getLastName())
+                    && old.getBirthdate().equals(patient.getBirthdate())
+                    && old.getGender().equals(patient.getGender())
+                    && old.getAddress().equals(patient.getAddress())
+                    && old.getPhone().equals(patient.getPhone())) {
+                throw new Exception("Nothing to update, failed to update");
+            }
+            try {
+                Patient duplicate = findPatientByFirstNameAndLastName(patient.getFirstName(), patient.getLastName());
+                if(duplicate.getPid() != old.getPid()) {
+                    throw new Exception("Duplication attempt, failed to update");
+                }
+            } catch (IllegalArgumentException e) {
+                // do nothing
+            }
+            return patientRepository.save(patient);
+        } catch (IllegalArgumentException e) {
+            throw new IllegalArgumentException(e.getMessage() + ", failed to update");
+        } catch (Exception e) {
+            throw new IllegalArgumentException(e.getMessage());
+        }
+    }
+    public void deletePatient(Long id) {
+        try {
+            Patient patient = findPatientById(id);
             patientRepository.delete(patient);
         } catch (IllegalArgumentException e) {
             throw new IllegalArgumentException(e.getMessage() + ", failed to delete");

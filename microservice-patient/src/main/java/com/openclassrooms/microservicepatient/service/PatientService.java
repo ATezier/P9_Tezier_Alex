@@ -5,6 +5,8 @@ import com.openclassrooms.microservicepatient.repository.PatientRepository;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.List;
 
 @Service
@@ -29,6 +31,13 @@ public class PatientService {
         if(patient.getBirthdate() == null) {
             isValid = false;
             errorMessage += "Birth date is required.\n";
+        }
+        try {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+            formatter.parse(patient.getBirthdate());
+        } catch (DateTimeParseException e) {
+            isValid = false;
+            errorMessage += e.getMessage() + "\n";
         }
         if(patient.getGender() == null) {
             switch (patient.getGender()) {

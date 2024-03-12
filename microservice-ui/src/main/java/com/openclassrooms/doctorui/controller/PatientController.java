@@ -32,6 +32,7 @@ public class PatientController {
     @GetMapping("/patient/get/{id}")
     public String getPatient(@PathVariable Long id, Model model) {
         Patient patient = null;
+        Report[] reports = null;
         RestTemplate restTemplate = new RestTemplate();
         String getPatientUrl = patientUrl + "/get/" + id;
         ResponseEntity<Patient> response = restTemplate.getForEntity(getPatientUrl, Patient.class);
@@ -41,7 +42,15 @@ public class PatientController {
             String getReportsUrl = reportUrl + "/getByPid/" + patient.getPid();
             ResponseEntity<Report[]> responseReports = restTemplate.getForEntity(getReportsUrl, Report[].class);
             if(responseReports.getStatusCode() == OK) {
-                model.addAttribute("reports", responseReports.getBody());
+                reports = responseReports.getBody();
+                model.addAttribute("reports", reports);
+                String analyseRiskUrl = riskAnalyserUrl + "/" + patient.getPid();
+                ResponseEntity<String> responseRisk = restTemplate.getForEntity(analyseRiskUrl, String.class);
+                if(responseRisk.getStatusCode() == OK) {
+                    model.addAttribute("risk", responseRisk.getBody());
+                } else {
+                    model.addAttribute("error", responseRisk.getBody());
+                }
             } else {
                 model.addAttribute("error", responseReports.getBody());
             }

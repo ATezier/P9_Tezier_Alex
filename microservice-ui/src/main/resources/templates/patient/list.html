@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	  xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+<meta charset="utf-8"/>
+<title>Home</title>
+<link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+</head>
+<body>
+<div class="container">
+	<div class="row">
+		<div class="col-6">
+			<a href="/patient/list">Home</a>&nbsp;|&nbsp;
+		</div>
+		<div class="col-6 text-right">
+			Logged in user: <b th:inline="text"  class="user" sec:authentication="name"></b>
+			<form th:action="@{/logout}" method="POST">
+				<input type="submit" value="Logout"/>
+			</form>
+		</div>
+	</div>
+	<div class="row"><h2>Liste des Patients</h2></div>
+	<div class="row">
+		<a href="/patient/add" class="btn btn-primary btn-sm">Add New</a>
+		<p class="text-danger" th:if="${error != null}" th:text="${error}"></p>
+		<table class="table table-bordered">
+			<thead>
+				<tr>
+					<th>Id</th>
+					<th>Prénom</th>
+					<th>Nom de famille</th>
+					<th>Date de naissance</th>
+					<th>Adresse postale</th>
+					<th>Numéro de téléphone</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="patient : ${patients}">
+					<td style="width: 10%"><a th:text="${patient.pid}" th:href="@{/patient/get/{id}(id=${patient.pid})}"></a></td>
+					<td th:text="${patient.firstName}"></td>
+					<td th:text="${patient.lastName}"></td>
+					<td th:text="${patient.birthdate}"></td>
+					<td th:text="${patient.address}"></td>
+					<td th:text="${patient.phone}"></td>
+					<td style="width: 15%" class="text-center">
+						<a th:href="@{/patient/update/{id}(id=${patient.pid})}">Edit</a>&nbsp;|&nbsp;
+						<a th:href="@{/patient/delete/{id}(id=${patient.pid})}">Delete</a>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</div>
+</body>
+</html>

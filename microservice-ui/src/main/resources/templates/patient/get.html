@@ -44,6 +44,10 @@
 						<span class="field" th:text="${patient.phone}">Non renseigné</span>
 					</div>
 				</div>
+				<div class="profileItem">
+					<span class="field">Niveau de risque :</span>
+					<span class="field" th:text="${risk}">Risque</span>
+				</div>
 			</div>
 			
 			<a th:href="@{/report/add/{pid}(pid=${patient.pid})}" class="btn btn-primary btn-sm">Rédiger un nouveau rapport.</a>

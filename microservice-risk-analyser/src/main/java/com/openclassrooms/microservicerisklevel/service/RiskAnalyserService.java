@@ -29,47 +29,52 @@ public class RiskAnalyserService {
 
     public String analyse(Patient patient, List<Report> reports) {
         int age = getAge(patient.getBirthdate());
-        int critera = criteriaCounter(reports);
-        if(critera < 2) {
+        int criteria = criteriaCounter(reports);
+        if(criteria < 2) {
             return "None";
         }
-        if(critera < 6 && age > 30) {
+        if(criteria < 6 && age > 30) {
             return "Borderline";
         }
         if(patient.getGender().equals("F")) {
+            //Women section
             if(age < 30) {
-                if(critera > 6) {
+                if(criteria > 6) {
                     return "Early onset";
                 }
-                if(critera > 3) {
+                if(criteria > 3) {
                     return "In Danger";
                 }
             } else {
-                if(critera > 7) {
+                if(criteria > 7) {
                     return "Early onset";
                 }
-                if(critera > 5) {
+                if(criteria > 5) {
                     return "In Danger";
                 }
             }
         } else {
+            //Men section
             if(age < 30) {
-                if(critera > 4) {
+                if(criteria > 4) {
                     return "Early onset";
                 }
-                if(critera > 2) {
+                if(criteria > 2) {
                     return "In Danger";
                 }
             } else {
-                if(critera > 7) {
+                if(criteria > 7) {
                     return "Early onset";
                 }
-                if(critera > 6) {
+                if(criteria > 6) {
                     return "In Danger";
                 }
             }
         }
-        return "Error : None Match";
+        return "None Match for :\n" +
+                "Age : "+age+"\n" +
+                "Gender : "+patient.getGender()+"\n" +
+                "Number of detected criteria : "+criteria;
     }
 
     public int getAge(String birthdate) {
@@ -93,7 +98,7 @@ public class RiskAnalyserService {
                 if(criteriaCount.get(criterion) > 0) {
                     continue;
                 }
-                if(r.getContent().contains(criterion)) {
+                if(r.getContent().toUpperCase().contains(criterion.toUpperCase())) {
                     criteriaCount.put(criterion, criteriaCount.get(criterion) + 1);
                     total.getAndIncrement();
                 }

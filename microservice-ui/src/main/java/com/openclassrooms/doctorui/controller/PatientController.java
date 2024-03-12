@@ -15,7 +15,7 @@ import static org.springframework.http.HttpStatus.*;
 public class PatientController {
     private final String patientUrl = "http://localhost:8081/patient";
     private final String reportUrl = "http://localhost:8081/report";
-    private final String classificatorUrl = "http://localhost:8081/classificator";
+    private final String riskAnalyserUrl = "http://localhost:8081/risk-analyser";
     @GetMapping("/patient/list")
     public String getPatients(Model model, RedirectAttributes redirectAttributes) {
         RestTemplate restTemplate = new RestTemplate();

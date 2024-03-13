@@ -4,7 +4,6 @@ import com.openclassrooms.microservicepatient.model.Patient;
 import com.openclassrooms.microservicepatient.repository.PatientRepository;
 import org.springframework.stereotype.Service;
 
-import java.io.IOException;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.List;
@@ -55,20 +54,20 @@ public class PatientService {
         }
         return true;
     }
-    public Patient findPatientByFirstNameAndLastName(String firstName, String lastName) {
+    public Patient findByFirstNameAndLastName(String firstName, String lastName) {
         return patientRepository.findByFirstNameAndLastName(firstName, lastName).orElseThrow(() -> new IllegalArgumentException("Patient not found"));
     }
 
-    public Patient findPatientById(Long id) {
+    public Patient findById(Long id) {
         return patientRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Patient not found"));
     }
     public List<Patient> findAllPatients() {
         return patientRepository.findAll();
     }
-    public Patient createPatient(Patient patient) {
+    public Patient create(Patient patient) {
         try {
             isValid(patient);
-            findPatientByFirstNameAndLastName(patient.getFirstName(), patient.getLastName());
+            findByFirstNameAndLastName(patient.getFirstName(), patient.getLastName());
             throw new Exception("Patient already exists, failed to create new patient");
         } catch (IllegalArgumentException e) {
             return patientRepository.save(patient);
@@ -77,11 +76,11 @@ public class PatientService {
         }
     }
 
-    public Patient updatePatient(Long id, Patient patient) {
+    public Patient update(Long id, Patient patient) {
         Patient old;
         try {
             isValid(patient);
-            old = findPatientById(id);
+            old = findById(id);
             patient.setPid(old.getPid());
             if (old.getFirstName().equals(patient.getFirstName())
                     && old.getLastName().equals(patient.getLastName())
@@ -92,7 +91,7 @@ public class PatientService {
                 throw new Exception("Nothing to update, failed to update");
             }
             try {
-                Patient duplicate = findPatientByFirstNameAndLastName(patient.getFirstName(), patient.getLastName());
+                Patient duplicate = findByFirstNameAndLastName(patient.getFirstName(), patient.getLastName());
                 if(duplicate.getPid() != old.getPid()) {
                     throw new Exception("Duplication attempt, failed to update");
                 }
@@ -106,9 +105,9 @@ public class PatientService {
             throw new IllegalArgumentException(e.getMessage());
         }
     }
-    public void deletePatient(Long id) {
+    public void delete(Long id) {
         try {
-            Patient patient = findPatientById(id);
+            Patient patient = findById(id);
             patientRepository.delete(patient);
         } catch (IllegalArgumentException e) {
             throw new IllegalArgumentException(e.getMessage() + ", failed to delete");

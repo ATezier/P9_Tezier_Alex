@@ -23,7 +23,7 @@ public class PatientController {
     public ResponseEntity<Patient> getPatientByFirstNameAndLastName(@RequestParam String firstName, @RequestParam String lastName) {
         ResponseEntity<Patient> res = null;
         try {
-            res = new ResponseEntity<>(patientService.findPatientByFirstNameAndLastName(firstName, lastName), HttpStatus.OK);
+            res = new ResponseEntity<>(patientService.findByFirstNameAndLastName(firstName, lastName), HttpStatus.OK);
         } catch (IllegalArgumentException e) {
             res = new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
@@ -34,7 +34,7 @@ public class PatientController {
     public ResponseEntity<Patient> getPatientById(@PathVariable Long id) {
         ResponseEntity<Patient> res = null;
         try {
-            res = new ResponseEntity<>(patientService.findPatientById(id), HttpStatus.OK);
+            res = new ResponseEntity<>(patientService.findById(id), HttpStatus.OK);
         } catch (IllegalArgumentException e) {
             res = new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
@@ -44,9 +44,10 @@ public class PatientController {
     @PostMapping("patient/create")
     public ResponseEntity<?> createPerson(@RequestBody Patient patient) {
         ResponseEntity<?> res = null;
+        Patient response = null;
         try {
-            patientService.createPatient(patient);
-            res = ResponseEntity.status(HttpStatus.CREATED).build();
+            response = patientService.create(patient);
+            res = ResponseEntity.status(HttpStatus.CREATED).body(response);
         } catch (IllegalArgumentException e) {
             res = ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
@@ -57,7 +58,7 @@ public class PatientController {
     public ResponseEntity<?> updatePerson(@PathVariable Long id, @RequestBody Patient patient) {
         ResponseEntity<?> res = null;
         try {
-            patientService.updatePatient(id, patient);
+            patientService.update(id, patient);
             res = new ResponseEntity<>(HttpStatus.OK);
         } catch (IllegalArgumentException e) {
             if(e.getMessage().contains("Patient not found")) {
@@ -73,7 +74,7 @@ public class PatientController {
     public ResponseEntity<?> deletePerson(@PathVariable Long id) {
         ResponseEntity<?> res = null;
         try {
-            patientService.deletePatient(id);
+            patientService.delete(id);
             res = new ResponseEntity<>(HttpStatus.OK);
         } catch (IllegalArgumentException e) {
             res = new ResponseEntity<>(HttpStatus.NOT_FOUND);

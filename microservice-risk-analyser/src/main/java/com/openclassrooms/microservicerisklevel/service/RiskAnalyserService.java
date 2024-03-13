@@ -27,6 +27,10 @@ public class RiskAnalyserService {
             "Réaction",
             "Anticorps");
 
+    public List<String> getCriteria() {
+        return criteria;
+    }
+
     public String analyse(Patient patient, List<Report> reports) {
         int age = getAge(patient.getBirthdate());
         int criteria = criteriaCounter(reports);

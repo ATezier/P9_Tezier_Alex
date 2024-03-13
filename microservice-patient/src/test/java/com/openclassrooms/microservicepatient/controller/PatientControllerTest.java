@@ -20,21 +20,15 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
-@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class PatientControllerTest {
     @Autowired
     private PatientService patientService;
     @Autowired
     private WebApplicationContext context;
-    private MockMvc mockMvc;
-
-    @BeforeAll
-    public void setUp() {
-        mockMvc = MockMvcBuilders.webAppContextSetup(context).build();
-    }
 
     @Test
     public void crudTests() throws Exception {
+        MockMvc mockMvc = MockMvcBuilders.webAppContextSetup(context).build();
         Patient patient = new Patient();
         patient.setFirstName("Tester");
         patient.setLastName("Test");

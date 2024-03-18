@@ -1,6 +1,8 @@
 package com.openclassrooms.doctorui.controller;
 
 import com.openclassrooms.microservicereport.model.Report;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.http.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -10,6 +12,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 public class ReportController {
+    @Autowired
+    private RestTemplate restTemplate;
     private final String reportUrl = "http://localhost:8081/report";
 
     @GetMapping("/report/add/{pid}")
@@ -27,31 +31,27 @@ public class ReportController {
         RestTemplate restTemplate = new RestTemplate();
         String createReportUrl = reportUrl + "/create";
         HttpEntity<Report> request = new HttpEntity<>(report, headers);
-        ResponseEntity<Report> response = restTemplate.exchange(
-            createReportUrl,
-            HttpMethod.POST,
-            request,
-            Report.class);
-        if(response.getStatusCode() == HttpStatus.CREATED) {
-            return "redirect:/patient/get/" + report.getPid();
-        } else {
-            model.addAttribute("error", response.getBody());
+        try {
+            ResponseEntity<Report> response = restTemplate.postForEntity(createReportUrl, request, Report.class);
+        } catch (Exception e) {
+            model.addAttribute("error", e.getMessage());
             return "report/add";
         }
+        return "redirect:/patient/get/" + report.getPid();
     }
 
     @GetMapping("/report/update/{rid}")
     public String updateReport(@PathVariable String rid, RedirectAttributes redirectAttributes, Model model) {
         RestTemplate restTemplate = new RestTemplate();
         String getReportUrl = reportUrl + "/get/" + rid;
-        ResponseEntity<Report> response = restTemplate.getForEntity(getReportUrl, Report.class);
-        if(response.getStatusCode() == HttpStatus.OK) {
+        try {
+            ResponseEntity<Report> response = restTemplate.getForEntity(getReportUrl, Report.class);
             model.addAttribute("report", response.getBody());
-            return "report/update";
-        } else {
-            redirectAttributes.addFlashAttribute("error", response.getBody());
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("error", e.getMessage());
             return "redirect:/patient/list";
         }
+        return "report/update";
     }
 
     @PostMapping("/report/update/{rid}")
@@ -61,30 +61,31 @@ public class ReportController {
         String updateReportUrl = reportUrl + "/update/" + rid;
         RestTemplate restTemplate = new RestTemplate();
         HttpEntity<Report> request = new HttpEntity<>(report, headers);
-        ResponseEntity<Report> response = restTemplate.exchange(
-            updateReportUrl,
-            HttpMethod.PUT,
-            request,
-            Report.class);
-        if(response.getStatusCode() == HttpStatus.OK) {
-            return "redirect:/patient/get/" + report.getPid();
-        } else {
-            model.addAttribute("error", response.getBody());
+        try {
+            ResponseEntity<Report> response = restTemplate.exchange(
+                    updateReportUrl,
+                    HttpMethod.PUT,
+                    request,
+                    Report.class);
+        } catch (Exception e) {
+            model.addAttribute("error", e.getMessage());
             return "report/update";
         }
+        return "redirect:/patient/get/" + report.getPid();
     }
 
     @GetMapping("/report/delete/{pid}/{rid}")
     public String deleteReport( @PathVariable String pid ,@PathVariable String rid, RedirectAttributes redirectAttributes) {
         RestTemplate restTemplate = new RestTemplate();
         String deleteReportUrl = reportUrl + "/delete/" + rid;
-        ResponseEntity<Report> response = restTemplate.exchange(
-            deleteReportUrl,
-            HttpMethod.DELETE,
-            null,
-            Report.class);
-        if(response.getStatusCode() != HttpStatus.OK) {
-            redirectAttributes.addFlashAttribute("error", response.getBody());
+        try {
+            ResponseEntity<Report> response = restTemplate.exchange(
+                    deleteReportUrl,
+                    HttpMethod.DELETE,
+                    null,
+                    Report.class);
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("error", e.getMessage());
         }
         return "redirect:/patient/get/" + pid;
     }

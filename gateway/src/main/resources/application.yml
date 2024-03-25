@@ -1,0 +1,21 @@
+server:
+  port: 8081
+
+spring:
+  cloud:
+    gateway:
+      routes:
+        - id: patient-microservice
+          uri: ${PATIENT_MICROSERVICE_URI:http://localhost:8082}
+          predicates:
+            - Path=/patient/**
+
+        - id: report-microservice
+          uri: ${REPORT_MICROSERVICE_URI:http://localhost:8083}
+          predicates:
+            - Path=/report/**
+
+        - id: risk-analyser-microservice
+          uri: ${RISK_ANALYSER_MICROSERVICE_URI:http://localhost:8084}
+          predicates:
+            - Path=/risk-analyser/**

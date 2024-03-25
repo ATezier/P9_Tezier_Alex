@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	  xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+<meta charset="utf-8"/>
+<title>Patient Infos</title>
+<link rel="stylesheet" href="../../css/bootstrap.min.css">
+<link rel="stylesheet" href="../../css/report.css">
+<link rel="stylesheet" href="../../css/patient.css">
+</head>
+<body>
+<div class="container">
+	<div class="row">
+		<div class="col-6">
+			<a href="/patient/list">Home</a>&nbsp;|&nbsp;
+		</div>
+		<div class="col-6 text-right">
+			Logged in user: <b th:inline="text"  class="user" sec:authentication="name"></b>
+			<form th:action="@{/logout}" method="POST">
+				<input type="submit" value="Logout"/>
+			</form>
+		</div>
+	</div>
+	<div class="row">
+		<p class="text-danger" th:if="${error != null}" th:text="${error}"></p>
+		<div class="container">
+			<div class="profile">
+				<div id="profileCard" class="profileItem">
+					<img th:if="${patient.gender == 'F'}" id="portrait" src="../../images/womanIcon.png"/>
+					<img th:unless="${patient.gender == 'F'}" id="portrait" src="../../images/manIcon.png"/>
+					<span id="fullName">[[${patient.firstName} + ' ' + ${patient.lastName}]]</span>
+				</div>
+				<div class="profileItem">
+					<div class="profileField">
+						<img src="../../images/birthdateIcon.png"/>
+						<span th:text="${patient.birthdate}">Birthdate</span>
+					</div>
+					<div class="profileField">
+						<img src="../../images/addressIcon.png"/>
+						<span class="field" th:text="${patient.address}">Non renseigné</span>
+					</div>
+					<div class="profileField">
+						<img src="../../images/phoneIcon.png"/>
+						<span class="field" th:text="${patient.phone}">Non renseigné</span>
+					</div>
+				</div>
+				<div class="profileItem">
+					<span class="field">Niveau de risque :</span>
+					<span class="field" th:text="${risk}">Risque</span>
+				</div>
+			</div>
+			
+			<a th:href="@{/report/add/{pid}(pid=${patient.pid})}" class="btn btn-primary btn-sm">Rédiger un nouveau rapport.</a>
+			<table class="table table-bordered">
+				<thead>
+				<tr>
+					<th>Id</th>
+					<th>Note</th>
+				</tr>
+				</thead>
+				<tbody>
+				<tr th:each="report : ${reports}">
+					<td style="width: 10%" th:text="${report.pid}"></td>
+					<td th:text="${report.content}"></td>
+					<td style="width: 15%" class="text-center">
+						<a th:href="@{/report/update/{rid}(rid=${report.rid})}">Edit</a>&nbsp;|&nbsp;
+						<a th:href="@{/report/delete/{pid}/{rid}(rid=${report.rid}, pid=${report.pid})}">Delete</a>
+					</td>
+				</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>
+</body>
+</html>

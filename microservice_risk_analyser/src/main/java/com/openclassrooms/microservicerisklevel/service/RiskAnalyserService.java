@@ -1,6 +1,5 @@
 package com.openclassrooms.microservicerisklevel.service;
 
-import com.openclassrooms.microservicerisklevel.dto.RiskAnalyserAssetsDto;
 import com.openclassrooms.microservicerisklevel.model.Patient;
 import com.openclassrooms.microservicerisklevel.model.Report;
 import com.openclassrooms.microservicerisklevel.repository.RiskAnalyserRepository;
@@ -36,16 +35,16 @@ public class RiskAnalyserService {
         return criteria;
     }
 
-    public String analyse(RiskAnalyserAssetsDto riskAnalyserAssetsDto) {
-        int age = getAge(riskAnalyserAssetsDto.getBirthdate());
-        int criteria = criteriaCounter(riskAnalyserAssetsDto.getReports());
+    public String analyse(Patient patient, List<Report> reports) {
+        int age = getAge(patient.getBirthdate());
+        int criteria = criteriaCounter(reports);
         if(criteria < 2) {
             return "None";
         }
         if(criteria < 6 && age > 30) {
             return "Borderline";
         }
-        if(riskAnalyserAssetsDto.getGender().equals("F")) {
+        if(patient.getGender().equals("F")) {
             //Women section
             if(age < 30) {
                 if(criteria > 6) {
@@ -82,7 +81,7 @@ public class RiskAnalyserService {
         }
         return "None Match for :\n" +
                 "Age : "+age+"\n" +
-                "Gender : "+riskAnalyserAssetsDto.getGender()+"\n" +
+                "Gender : "+patient.getGender()+"\n" +
                 "Number of detected criteria : "+criteria;
     }
 
@@ -120,7 +119,7 @@ public class RiskAnalyserService {
         try {
             Patient patient = riskAnalyserRepository.getPatient(pid);
             List<Report> reports = Arrays.stream(riskAnalyserRepository.getReportsByPid(pid)).toList();
-            return analyse(new RiskAnalyserAssetsDto(patient, reports));
+            return analyse(patient, reports);
         } catch (Exception e) {
             throw new IllegalArgumentException(e.getMessage());
         }

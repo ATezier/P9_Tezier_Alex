@@ -46,46 +46,45 @@ public class RiskAnalyserServiceTest {
         Patient patient = new Patient();
         patient.setGender("M");
         patient.setBirthdate(date.minusYears(38).format(formatter));
-        RiskAnalyserAssetsDto riskAnalyserAssetsDto = new RiskAnalyserAssetsDto(patient, new ArrayList<>());
 
-        List<Report> reports = riskAnalyserAssetsDto.getReports();
+        List<Report> reports = new ArrayList<>();
         //None risk level
-        assertEquals("None", riskAnalyserService.analyse(riskAnalyserAssetsDto));
+        assertEquals("None", riskAnalyserService.analyse(patient, reports));
         List<String> criteria = riskAnalyserService.getCriteria();
         //Borderline risk level
         reportManager(reports, 2);
-        assertEquals("Borderline", riskAnalyserService.analyse(riskAnalyserAssetsDto));
+        assertEquals("Borderline", riskAnalyserService.analyse(patient, reports));
         //For a man older than 30
         //On danger risk level
         reportManager(reports, 7);
-        assertEquals("In Danger", riskAnalyserService.analyse(riskAnalyserAssetsDto));
+        assertEquals("In Danger", riskAnalyserService.analyse(patient, reports));
         //Early onset risk level
         reportManager(reports, 8);
-        assertEquals("Early onset", riskAnalyserService.analyse(riskAnalyserAssetsDto));
+        assertEquals("Early onset", riskAnalyserService.analyse(patient, reports));
         //For a man younger than 30
-        riskAnalyserAssetsDto.setBirthdate(date.minusYears(28).format(formatter));
+        patient.setBirthdate(date.minusYears(28).format(formatter));
         //On danger risk level
         reportManager(reports, 4);
-        assertEquals("In Danger", riskAnalyserService.analyse(riskAnalyserAssetsDto));
+        assertEquals("In Danger", riskAnalyserService.analyse(patient, reports));
         //Early onset risk level
         reportManager(reports, 5);
-        assertEquals("Early onset", riskAnalyserService.analyse(riskAnalyserAssetsDto));
+        assertEquals("Early onset", riskAnalyserService.analyse(patient, reports));
         //For a woman younger than 30
-        riskAnalyserAssetsDto.setGender("F");
+        patient.setGender("F");
         //On danger risk level
         reportManager(reports, 4);
-        assertEquals("In Danger", riskAnalyserService.analyse(riskAnalyserAssetsDto));
+        assertEquals("In Danger", riskAnalyserService.analyse(patient, reports));
         //Early onset risk level
         reportManager(reports, 7);
-        assertEquals("Early onset", riskAnalyserService.analyse(riskAnalyserAssetsDto));
+        assertEquals("Early onset", riskAnalyserService.analyse(patient, reports));
         //For a woman older than 30
-        riskAnalyserAssetsDto.setBirthdate(date.minusYears(38).format(formatter));
+        patient.setBirthdate(date.minusYears(38).format(formatter));
         //On danger risk level
         reportManager(reports, 6);
-        assertEquals("In Danger", riskAnalyserService.analyse(riskAnalyserAssetsDto));
+        assertEquals("In Danger", riskAnalyserService.analyse(patient, reports));
         //Early onset risk level
         reportManager(reports, 8);
-        assertEquals("Early onset", riskAnalyserService.analyse(riskAnalyserAssetsDto));
+        assertEquals("Early onset", riskAnalyserService.analyse(patient, reports));
     }
 
     private void reportManager(List<Report> reports, int size) {

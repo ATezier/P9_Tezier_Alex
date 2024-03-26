@@ -37,21 +37,8 @@ public class SecurityConfiguration {
     @Bean
     public MapReactiveUserDetailsService userDetailsRepository() {
         User.UserBuilder userBuilder = User.withDefaultPasswordEncoder();
-        UserDetails hubert = userBuilder.username("user").password(">VCcO8`4]14jRM26g1").roles("USER").build();
-        return new MapReactiveUserDetailsService(hubert);
+        UserDetails hubert = userBuilder.username("accountUI").password(">VCcO8`4]14jRM26g1").roles("USER").build();
+        UserDetails jeanFrancois = userBuilder.username("accountRiskAnalyser").password("z{`aeKwgU!$]+h-YD3B").roles("USER").build();
+        return new MapReactiveUserDetailsService(hubert, jeanFrancois);
     }
-/*
-    @Bean
-    CorsFilter corsFilter() {
-        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        CorsConfiguration config = new CorsConfiguration();
-        config.setAllowCredentials(true);
-        config.addAllowedOrigin("*");
-        config.addAllowedHeader("*");
-        config.addAllowedMethod("*");
-        source.registerCorsConfiguration("/**", config);
-        return new CorsFilter(source);
-    }
-
- */
 }

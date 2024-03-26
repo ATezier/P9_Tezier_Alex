@@ -1,6 +1,5 @@
 package com.openclassrooms.microservicerisklevel.service;
 
-import com.openclassrooms.microservicerisklevel.dto.RiskAnalyserAssetsDto;
 import com.openclassrooms.microservicerisklevel.model.Patient;
 import com.openclassrooms.microservicerisklevel.model.Report;
 import org.junit.jupiter.api.Test;

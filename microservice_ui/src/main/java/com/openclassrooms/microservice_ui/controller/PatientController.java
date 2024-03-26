@@ -1,6 +1,5 @@
 package com.openclassrooms.microservice_ui.controller;
 
-import com.openclassrooms.microservice_ui.dto.RiskAnalyserAssetsDto;
 import com.openclassrooms.microservice_ui.model.Patient;
 import com.openclassrooms.microservice_ui.model.Report;
 import com.openclassrooms.microservice_ui.service.PatientService;
@@ -49,8 +48,7 @@ public class PatientController {
         try {
             patient = patientService.get(id);
             reports = reportService.getByPid(patient.getPid());
-            RiskAnalyserAssetsDto riskAnalyserAssetsDto = new RiskAnalyserAssetsDto(patient, Arrays.stream(reports).toList());
-            risk = riskAnalyserService.get(riskAnalyserAssetsDto);
+            risk = riskAnalyserService.get(id);
             model.addAttribute("patient", patient);
             model.addAttribute("reports", reports);
             model.addAttribute("risk", risk);

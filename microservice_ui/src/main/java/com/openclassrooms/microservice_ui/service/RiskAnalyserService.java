@@ -1,6 +1,5 @@
 package com.openclassrooms.microservice_ui.service;
 
-import com.openclassrooms.microservice_ui.dto.RiskAnalyserAssetsDto;
 import com.openclassrooms.microservice_ui.repository.RiskAnalyserRepository;
 import org.springframework.stereotype.Service;
 
@@ -12,9 +11,9 @@ public class RiskAnalyserService {
         this.riskAnalyserRepository = riskAnalyserRepository;
     }
 
-    public String get(RiskAnalyserAssetsDto riskAnalyserAssetsDto) {
+    public String get(Long pid) {
         try {
-            return riskAnalyserRepository.get(riskAnalyserAssetsDto);
+            return riskAnalyserRepository.getRisk(pid);
         } catch (Exception e) {
             throw new IllegalArgumentException(e.getMessage());
         }

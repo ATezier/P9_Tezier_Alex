@@ -10,7 +10,7 @@ public class SecurityConfiguration {
     @Bean
     public RestTemplate restTemplate() {
         RestTemplate restTemplate = new RestTemplate();
-        restTemplate.getInterceptors().add(new BasicAuthenticationInterceptor("user", ">VCcO8`4]14jRM26g1"));
+        restTemplate.getInterceptors().add(new BasicAuthenticationInterceptor("accountRiskAnalyser", "z{`aeKwgU!$]+h-YD3B"));
         return restTemplate;
     }
 }

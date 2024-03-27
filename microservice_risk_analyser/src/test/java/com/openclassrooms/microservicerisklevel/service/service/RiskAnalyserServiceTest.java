@@ -1,7 +1,8 @@
-package com.openclassrooms.microservicerisklevel.service;
+package com.openclassrooms.microservicerisklevel.service.service;
 
 import com.openclassrooms.microservicerisklevel.model.Patient;
 import com.openclassrooms.microservicerisklevel.model.Report;
+import com.openclassrooms.microservicerisklevel.service.RiskAnalyserService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;

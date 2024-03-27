@@ -22,6 +22,10 @@ public class PatientRepository {
         return restTemplate.getForObject(patientUrl + "/get/" + id, Patient.class);
     }
 
+    public Patient get(String firstName, String lastName) {
+        return restTemplate.getForObject(patientUrl + "/get?firstName=" + firstName + "&lastName=" + lastName, Patient.class);
+    }
+
     public void create(Patient patient) {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);

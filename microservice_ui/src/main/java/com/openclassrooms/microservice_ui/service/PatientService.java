@@ -24,6 +24,14 @@ public class PatientService {
         }
     }
 
+    public Patient get(String firstName, String lastName) {
+        try {
+            return patientRepository.get(firstName, lastName);
+        } catch (Exception e) {
+            throw new IllegalArgumentException(e.getMessage());
+        }
+    }
+
     public void add(Patient patient) {
         try {
             patientRepository.create(patient);

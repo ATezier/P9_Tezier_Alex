@@ -46,4 +46,4 @@ Before deploying the Medilabo project using Docker, ensure the following steps a
 2. **Compile Microservices**: Compile the microservices using the `mvn package` command, ensuring dependencies are compiled in the correct order. Since `microservice_ui` and `microservice_risk_analyser` depend on `microservice_patient` and `microservice_report`, ensure that these services are up and running before compiling `microservice_ui` and `microservice_risk_analyser`.
 3. **Execute Docker Compose**: Deploy the Medilabo project with Docker using the provided `docker-compose.yml` file.
 
-Following these steps ensures that all dependencies are met and that the microservices are compiled and deployed in the correct order, resulting in a functional deployment of the Medilabo project for diabetes risk screening.
+Following these steps ensures that all dependencies are met and that the microservices are compiled and deployed in the correct order, resulting in the successful construction of Docker images.

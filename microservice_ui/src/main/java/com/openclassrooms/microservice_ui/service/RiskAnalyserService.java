@@ -5,7 +5,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class RiskAnalyserService {
-    private RiskAnalyserRepository riskAnalyserRepository;
+    private final RiskAnalyserRepository riskAnalyserRepository;
 
     public RiskAnalyserService(RiskAnalyserRepository riskAnalyserRepository) {
         this.riskAnalyserRepository = riskAnalyserRepository;

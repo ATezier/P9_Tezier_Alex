@@ -10,15 +10,11 @@ import org.springframework.security.core.userdetails.MapReactiveUserDetailsServi
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.server.SecurityWebFilterChain;
-import org.springframework.web.cors.CorsConfiguration;
-import org.springframework.web.cors.CorsConfigurationSource;
-import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-import org.springframework.web.filter.CorsFilter;
 
 @Configuration
 public class SecurityConfiguration {
     @Bean
-    SecurityWebFilterChain springWebFilterChain(ServerHttpSecurity http) throws Exception {
+    SecurityWebFilterChain springWebFilterChain(ServerHttpSecurity http) {
         return http
                 //.cors(Customizer.withDefaults())
                 .csrf(csrf -> csrf.disable())

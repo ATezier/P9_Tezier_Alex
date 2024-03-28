@@ -10,7 +10,7 @@ import org.springframework.web.client.RestTemplate;
 
 @Repository
 public class PatientRepository {
-    private String patientUrl = "http://localhost:8081/patient";
+    private final String patientUrl = "http://localhost:8081/patient";
     @Autowired
     private RestTemplate restTemplate;
 

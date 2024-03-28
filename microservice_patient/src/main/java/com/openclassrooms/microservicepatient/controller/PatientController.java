@@ -21,7 +21,7 @@ public class PatientController {
 
     @GetMapping("patient/get")
     public ResponseEntity<Patient> getPatientByFirstNameAndLastName(@RequestParam String firstName, @RequestParam String lastName) {
-        ResponseEntity<Patient> res = null;
+        ResponseEntity<Patient> res;
         try {
             res = new ResponseEntity<>(patientService.findByFirstNameAndLastName(firstName, lastName), HttpStatus.OK);
         } catch (IllegalArgumentException e) {
@@ -32,7 +32,7 @@ public class PatientController {
 
     @GetMapping("patient/get/{id}")
     public ResponseEntity<Patient> getPatientById(@PathVariable Long id) {
-        ResponseEntity<Patient> res = null;
+        ResponseEntity<Patient> res;
         try {
             res = new ResponseEntity<>(patientService.findById(id), HttpStatus.OK);
         } catch (IllegalArgumentException e) {
@@ -43,8 +43,8 @@ public class PatientController {
 
     @PostMapping("patient/create")
     public ResponseEntity<?> createPerson(@RequestBody Patient patient) {
-        ResponseEntity<?> res = null;
-        Patient response = null;
+        ResponseEntity<?> res;
+        Patient response;
         try {
             response = patientService.create(patient);
             res = ResponseEntity.status(HttpStatus.CREATED).body(response);
@@ -56,7 +56,7 @@ public class PatientController {
 
     @PutMapping("patient/update/{id}")
     public ResponseEntity<?> updatePerson(@PathVariable Long id, @RequestBody Patient patient) {
-        ResponseEntity<?> res = null;
+        ResponseEntity<?> res;
         try {
             patientService.update(id, patient);
             res = new ResponseEntity<>(HttpStatus.OK);
@@ -72,7 +72,7 @@ public class PatientController {
 
     @DeleteMapping("patient/delete/{id}")
     public ResponseEntity<?> deletePerson(@PathVariable Long id) {
-        ResponseEntity<?> res = null;
+        ResponseEntity<?> res;
         try {
             patientService.delete(id);
             res = new ResponseEntity<>(HttpStatus.OK);

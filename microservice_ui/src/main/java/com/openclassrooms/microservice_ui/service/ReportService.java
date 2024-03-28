@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class ReportService {
-    private ReportRepository reportRepository;
+    private final ReportRepository reportRepository;
 
     public ReportService(ReportRepository reportRepository) {
         this.reportRepository = reportRepository;

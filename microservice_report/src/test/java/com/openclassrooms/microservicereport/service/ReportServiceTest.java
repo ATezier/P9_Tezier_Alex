@@ -40,7 +40,7 @@ public class ReportServiceTest {
         assertNotNull(reportService.create(report));
         //Read
         given(reportRepository.findByPid(report.getPid())).willReturn(List.of(report));
-        assertTrue(reportService.getReportByPid(report.getPid()).size() > 0);
+        assertFalse(reportService.getReportByPid(report.getPid()).isEmpty());
         given(reportRepository.findById(report.getRid())).willReturn(Optional.of(report));
         assertNotNull(reportService.getReportById(report.getRid()));
         //Update

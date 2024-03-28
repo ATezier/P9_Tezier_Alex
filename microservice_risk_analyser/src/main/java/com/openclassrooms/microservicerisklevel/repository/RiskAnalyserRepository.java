@@ -8,8 +8,8 @@ import org.springframework.web.client.RestTemplate;
 
 @Repository
 public class RiskAnalyserRepository {
-    private String patientUrl = "http://localhost:8081/patient";
-    private String reportUrl = "http://localhost:8081/report";
+    private final String patientUrl = "http://localhost:8081/patient";
+    private final String reportUrl = "http://localhost:8081/report";
     @Autowired
     RestTemplate restTemplate;
 

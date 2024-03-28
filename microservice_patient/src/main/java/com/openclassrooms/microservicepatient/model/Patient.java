@@ -4,8 +4,6 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
-
 @Entity
 @NoArgsConstructor
 @Table(name = "patients")

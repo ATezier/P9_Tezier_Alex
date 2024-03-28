@@ -4,6 +4,7 @@ import com.openclassrooms.microservicereport.model.Report;
 import com.openclassrooms.microservicereport.repository.ReportRepository;
 import org.springframework.stereotype.Service;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 public class ReportService {
@@ -58,7 +59,7 @@ public class ReportService {
             if (!old.getPid().equals(report.getPid())){
                 throw new Exception("The pid cannot be changed");
             }
-            if(old.getContent() == report.getContent()) {
+            if(Objects.equals(old.getContent(), report.getContent())) {
                 throw new Exception("Nothing to update");
             }
             report.setRid(old.getRid());

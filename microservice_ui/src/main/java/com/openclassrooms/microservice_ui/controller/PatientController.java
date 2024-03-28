@@ -11,9 +11,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import java.util.Arrays;
-
-
 @Controller
 public class PatientController {
     @Autowired
@@ -28,7 +25,7 @@ public class PatientController {
         if(redirectAttributes.getFlashAttributes().containsKey("error")) {
             model.addAttribute("error", redirectAttributes.getFlashAttributes().get("error"));
         }
-        Patient[] patients = null;
+        Patient[] patients;
         try {
             patients = patientService.getAll();
             model.addAttribute("patients", patients);
@@ -42,9 +39,9 @@ public class PatientController {
 
     @GetMapping("/patient/get/{id}")
     public String getPatient(@PathVariable Long id, Model model, RedirectAttributes redirectAttributes) {
-        Patient patient = null;
-        Report[] reports = null;
-        String risk = null;
+        Patient patient;
+        Report[] reports;
+        String risk;
         try {
             patient = patientService.get(id);
             reports = reportService.getByPid(patient.getPid());

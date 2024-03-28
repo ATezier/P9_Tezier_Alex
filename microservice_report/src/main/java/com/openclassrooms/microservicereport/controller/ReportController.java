@@ -20,7 +20,7 @@ public class ReportController {
 
     @GetMapping("report/get/{id}")
     public ResponseEntity<Report> getReportById(@PathVariable String id) {
-        ResponseEntity<Report> res = null;
+        ResponseEntity<Report> res;
         try {
             res = ResponseEntity.ok(reportService.getReportById(id));
         } catch (IllegalArgumentException e) {
@@ -31,7 +31,7 @@ public class ReportController {
 
     @GetMapping("report/getByPid/{pid}")
     public ResponseEntity<List<Report>> getReportByPid(@PathVariable Long pid) {
-        ResponseEntity<List<Report>> res = null;
+        ResponseEntity<List<Report>> res;
         try {
             res = ResponseEntity.ok(reportService.getReportByPid(pid));
         } catch (IllegalArgumentException e) {
@@ -42,7 +42,7 @@ public class ReportController {
 
     @PostMapping("report/create")
     public ResponseEntity<?> createReport(@RequestBody Report report) {
-        ResponseEntity<?> res = null;
+        ResponseEntity<?> res;
         try {
             reportService.create(report);
             res = ResponseEntity.created(null).build();
@@ -54,7 +54,7 @@ public class ReportController {
 
     @PutMapping("report/update/{id}")
     public ResponseEntity<?> updateReport(@PathVariable String id, @RequestBody Report report) {
-        ResponseEntity<?> res = null;
+        ResponseEntity<?> res;
         try {
             reportService.update(id, report);
             res = ResponseEntity.ok().build();
@@ -66,7 +66,7 @@ public class ReportController {
 
     @DeleteMapping("report/delete/{id}")
     public ResponseEntity<?> deleteReport(@PathVariable String id) {
-        ResponseEntity<?> res = null;
+        ResponseEntity<?> res;
         try {
             reportService.delete(id);
             res = ResponseEntity.ok().build();

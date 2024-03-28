@@ -6,7 +6,7 @@ import org.springframework.web.client.RestTemplate;
 
 @Repository
 public class RiskAnalyserRepository {
-    private String riskAnalyserUrl = "http://localhost:8081/risk-analyser";
+    private final String riskAnalyserUrl = "http://localhost:8081/risk-analyser";
     @Autowired
     RestTemplate restTemplate;
     public String getRisk(Long pid) {

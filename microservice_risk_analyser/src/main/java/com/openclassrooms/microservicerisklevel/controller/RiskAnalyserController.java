@@ -13,7 +13,7 @@ public class RiskAnalyserController {
 
     @GetMapping("risk-analyser/{pid}")
     public ResponseEntity<String> analyse(@PathVariable Long pid) {
-        ResponseEntity<String> response = null;
+        ResponseEntity<String> response;
         try {
             response = ResponseEntity.ok(riskAnalyserService.getRisk(pid));
         } catch (Exception e) {

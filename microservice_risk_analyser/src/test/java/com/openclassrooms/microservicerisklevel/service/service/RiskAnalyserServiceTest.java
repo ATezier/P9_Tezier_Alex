@@ -26,16 +26,16 @@ public class RiskAnalyserServiceTest {
     @Test
     public void criteriaCounter() {
         List<Report> reports = new ArrayList<>();
-        String reportContent = "For another test ";
+        StringBuilder reportContent = new StringBuilder("For another test ");
         for(String criterion : riskAnalyserService.getCriteria()) {
             Report report = new Report();
             report.setContent(criterion);
             reports.add(report);
-            reportContent += criterion + " ";
+            reportContent.append(criterion).append(" ");
         }
         assert(riskAnalyserService.criteriaCounter(reports) == reports.size());
         Report specialReport = new Report();
-        specialReport.setContent(reportContent);
+        specialReport.setContent(reportContent.toString());
         assert(riskAnalyserService.criteriaCounter(List.of(specialReport)) == reports.size());
     }
 

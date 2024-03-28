@@ -3,10 +3,10 @@ package com.openclassrooms.microservicepatient.service;
 import com.openclassrooms.microservicepatient.model.Patient;
 import com.openclassrooms.microservicepatient.repository.PatientRepository;
 import org.springframework.stereotype.Service;
-
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 public class PatientService {
@@ -92,7 +92,7 @@ public class PatientService {
             }
             try {
                 Patient duplicate = findByFirstNameAndLastName(patient.getFirstName(), patient.getLastName());
-                if(duplicate.getPid() != old.getPid()) {
+                if(!Objects.equals(duplicate.getPid(), old.getPid())) {
                     throw new Exception("Duplication attempt, failed to update");
                 }
             } catch (IllegalArgumentException e) {

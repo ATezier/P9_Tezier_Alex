@@ -7,7 +7,7 @@ import org.springframework.web.client.RestTemplate;
 
 @Repository
 public class ReportRepository {
-    private String reportUrl = "http://localhost:8081/report";
+    private final String reportUrl = "http://localhost:8081/report";
     @Autowired
     private RestTemplate restTemplate;
 

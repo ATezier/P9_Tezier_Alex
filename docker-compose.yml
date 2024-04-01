@@ -29,6 +29,8 @@ services:
       - MYSQL_PASSWORD=medilabo_pwd
     ports:
       - 8082:8082
+    depends_on:
+      - mysql-db
 
   microservice_report:
     build:
@@ -43,6 +45,8 @@ services:
       - MONGODB_DATABASE=reports
     ports:
       - 8083:8083
+    depends_on:
+      - mongo-db
 
   microservice_risk_analyser:
     build:

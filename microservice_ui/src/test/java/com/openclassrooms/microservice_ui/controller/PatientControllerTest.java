@@ -7,8 +7,11 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.client.support.BasicAuthenticationInterceptor;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.web.client.RestClientResponseException;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.context.WebApplicationContext;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -26,6 +29,9 @@ public class PatientControllerTest {
     @Autowired
     private WebApplicationContext context;
 
+    @Autowired
+    private RestTemplate restTemplate;
+
     @BeforeAll
     public void setUp() {
         newTestPatient = new Patient();
@@ -36,6 +42,7 @@ public class PatientControllerTest {
         newTestPatient.setPhone("");
         newTestPatient.setAddress("");
         mockMvc = MockMvcBuilders.webAppContextSetup(context).build();
+        restTemplate.getInterceptors().add(new BasicAuthenticationInterceptor("accountUI", ">VCcO8`4]14jRM26g1"));
     }
 
     @Test

@@ -19,6 +19,7 @@ public class SecurityConfiguration {
                 //.cors(Customizer.withDefaults())
                 .csrf(csrf -> csrf.disable())
                 .authorizeExchange(exchange -> exchange
+                .pathMatchers("/login").permitAll()
                 .pathMatchers("/patient/**").hasRole("USER")
                 .pathMatchers("/report/**").hasRole("USER")
                 .pathMatchers("/risk-analyser/**").hasRole("USER")

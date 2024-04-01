@@ -7,9 +7,12 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.AutoConfigureOrder;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.client.support.BasicAuthenticationInterceptor;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.context.WebApplicationContext;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -23,6 +26,8 @@ public class ReportControllerTest {
     private MockMvc mockMvc;
     private Report newTestReport;
     @Autowired
+    private RestTemplate restTemplate;
+    @Autowired
     private PatientService patientService;
     @Autowired
     private ReportService reportService;
@@ -35,6 +40,7 @@ public class ReportControllerTest {
         newTestReport = new Report();
         newTestReport.setPid(pid);
         newTestReport.setContent("Test Report");
+        restTemplate.getInterceptors().add(new BasicAuthenticationInterceptor("accountUI", ">VCcO8`4]14jRM26g1"));
     }
 
     @Test
